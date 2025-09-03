@@ -4,7 +4,7 @@ return {
     event = "VeryLazy",
     dependencies = {
       "mason-org/mason.nvim",
-      { "mason-org/mason-lspconfig.nvim", config = function() end },
+      "mason-org/mason-lspconfig.nvim",
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -19,28 +19,32 @@ return {
 
 	      vim.lsp.completion.enable(true, client.id, event.buf, {autotrigger = true})
 	    end
-
 	end
-    })
-
-    vim.lsp.enable({'lua_ls', 'texlab'})
+      })
+      vim.lsp.enable({ 'lua_ls', 'texlab', 'basedpyright', })
     end
   },
   {
     "mason-org/mason.nvim",
+    lazy = true,
     cmd = "Mason",
     build = ":MasonUpdate",
+    opts = {},
   },
   {
     "mason-org/mason-lspconfig.nvim",
-    config = function()
-
-    end,
+    lazy = true,
+    opts = {},
+    dependencies = {
+        { "mason-org/mason.nvim", opts = {} },
+        "neovim/nvim-lspconfig",
+    },
   },
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
     'folke/lazydev.nvim',
+    lazy = true,
     ft = 'lua',
     opts = {
       library = {

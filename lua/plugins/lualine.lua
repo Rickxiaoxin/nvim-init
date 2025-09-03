@@ -1,4 +1,11 @@
 return {
   'nvim-lualine/lualine.nvim',
-  dependencies = { 'nvim-tree/nvim-web-devicons' }
+  event = "VeryLazy",
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  opts = {
+    options = {
+      theme = 'dracula',
+    },
+  },
 }
+
