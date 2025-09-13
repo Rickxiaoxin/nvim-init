@@ -1,5 +1,3 @@
-local servers = { "lua_ls", "texlab", "basedpyright", "clangd" }
-
 return {
   {
     "neovim/nvim-lspconfig",
@@ -7,37 +5,54 @@ return {
     dependencies = {
       "mason-org/mason.nvim",
       "mason-org/mason-lspconfig.nvim",
+      "saghen/blink.cmp",
     },
-    config = function(_, opts)
+    config = function()
       -- Diagnostic Config
       -- See :help vim.diagnostic.Opts
-      vim.diagnostic.config {
+      vim.diagnostic.config({
         severity_sort = true,
-        float = { border = 'rounded', source = 'if_many' },
+        float = { border = "rounded", source = "if_many" },
         underline = { severity = vim.diagnostic.severity.ERROR },
-        signs = vim.g.have_nerd_font and {
+        signs = {
           text = {
-            [vim.diagnostic.severity.ERROR] = '󰅚 ',
-            [vim.diagnostic.severity.WARN] = '󰀪 ',
-            [vim.diagnostic.severity.INFO] = '󰋽 ',
-            [vim.diagnostic.severity.HINT] = '󰌶 ',
+            [vim.diagnostic.severity.ERROR] = "󰅚 ",
+            [vim.diagnostic.severity.WARN] = "󰀪 ",
+            [vim.diagnostic.severity.INFO] = "󰋽 ",
+            [vim.diagnostic.severity.HINT] = "󰌶 ",
           },
-        } or {},
+        },
         virtual_text = {
-          source = 'if_many',
+          source = "if_many",
           spacing = 2,
+          prefix = "",
           format = function(diagnostic)
+            local diagnostic_prefix = {
+              [vim.diagnostic.severity.ERROR] = "󰅚 ",
+              [vim.diagnostic.severity.WARN] = "󰀪 ",
+              [vim.diagnostic.severity.INFO] = "󰋽 ",
+              [vim.diagnostic.severity.HINT] = "󰌶 ",
+            }
             local diagnostic_message = {
               [vim.diagnostic.severity.ERROR] = diagnostic.message,
               [vim.diagnostic.severity.WARN] = diagnostic.message,
               [vim.diagnostic.severity.INFO] = diagnostic.message,
               [vim.diagnostic.severity.HINT] = diagnostic.message,
             }
-            return diagnostic_message[diagnostic.severity]
+            return diagnostic_prefix[diagnostic.severity] .. diagnostic_message[diagnostic.severity]
           end,
         },
-      }
-      vim.lsp.enable(servers)
+      })
+      local servers = { lua_ls = {}, texlab = {}, basedpyright = {}, clangd = {} }
+
+      -- Completion Config
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
+      for server, configuration in ipairs(servers) do
+        vim.lsp.config(
+          server,
+          { capabilities = vim.tbl_deep_extend("force", {}, capabilities, configuration.capabilities) }
+        )
+      end
     end,
   },
   {
@@ -49,8 +64,8 @@ return {
   {
     "mason-org/mason-lspconfig.nvim",
     opts = {
-      ensure_installed = servers,
+      ensure_installed = {},
+      automatic_installation = false,
     },
   },
 }
-
