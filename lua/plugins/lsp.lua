@@ -4,7 +4,6 @@ return {
     event = "VeryLazy",
     dependencies = {
       "mason-org/mason.nvim",
-      "mason-org/mason-lspconfig.nvim",
       "saghen/blink.cmp",
     },
     config = function()
@@ -53,6 +52,7 @@ return {
           { capabilities = vim.tbl_deep_extend("force", {}, capabilities, configuration.capabilities) }
         )
       end
+      vim.lsp.enable(vim.tbl_keys(servers) or {})
     end,
   },
   {
@@ -60,12 +60,5 @@ return {
     cmd = "Mason",
     build = ":MasonUpdate",
     opts = {},
-  },
-  {
-    "mason-org/mason-lspconfig.nvim",
-    opts = {
-      ensure_installed = {},
-      automatic_installation = false,
-    },
   },
 }

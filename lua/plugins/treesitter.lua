@@ -1,10 +1,26 @@
 return {
-  'nvim-treesitter/nvim-treesitter',
-  build = ':TSUpdate',
-  main = 'nvim-treesitter.configs',
+  "nvim-treesitter/nvim-treesitter",
+  build = ":TSUpdate",
+  main = "nvim-treesitter.configs",
   opts = {
-    ensure_installed = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'powershell', 'python', 'query', 'vim', 'vimdoc' },
+    ensure_installed = {
+      "bash",
+      "c",
+      "cpp",
+      "diff",
+      "html",
+      "lua",
+      "luadoc",
+      "markdown",
+      "markdown_inline",
+      "powershell",
+      "python",
+      "query",
+      "vim",
+      "vimdoc",
+    },
     auto_install = false,
+    ignore_install = { "latex" },
     highlight = {
       enable = true,
       -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
@@ -18,4 +34,3 @@ return {
     },
   },
 }
-
