@@ -42,15 +42,13 @@ return {
           end,
         },
       })
+
       local servers = { lua_ls = {}, texlab = {}, basedpyright = {}, clangd = {} }
 
       -- Completion Config
       local capabilities = require("blink.cmp").get_lsp_capabilities()
       for server, configuration in ipairs(servers) do
-        vim.lsp.config(
-          server,
-          { capabilities = vim.tbl_deep_extend("force", {}, capabilities, configuration.capabilities) }
-        )
+        vim.lsp.config(server, vim.tbl_deep_extend("force", { capabilities = capabilities }, configuration))
       end
       vim.lsp.enable(vim.tbl_keys(servers) or {})
     end,
