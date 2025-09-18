@@ -20,11 +20,6 @@ vim.api.nvim_create_autocmd("UIEnter", {
   end,
 })
 
-vim.api.nvim_create_autocmd("VimLeave", {
-  group = vim.api.nvim_create_augroup("vim-leave", { clear = true }),
-  command = "set guicursor=a:ver25-blinkwait700-blinkoff400-blinkon250",
-})
-
 vim.cmd("packadd! nohlsearch")
 
 vim.keymap.set("n", "<Esc>", "<Cmd>nohlsearch<CR>")
